@@ -6,7 +6,7 @@
 class CoreEngine
 {
 public:
-	//Disables the creation of copy and move contructors
+	//Disables the creation of copy or move contructors
 	CoreEngine(const CoreEngine&) = delete;
 	CoreEngine(CoreEngine&&) = delete;
 	CoreEngine& operator=(const CoreEngine&) = delete;
