@@ -1,6 +1,6 @@
 #ifndef COREENGINE_H
 #define COREENGINE_H
-#include "WIndow.h"
+#include "Window.h"
 
 #include <memory>
 class CoreEngine
