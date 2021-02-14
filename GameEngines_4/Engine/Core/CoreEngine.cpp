@@ -41,6 +41,7 @@ bool CoreEngine::OnCreate(std::string name_, int width_, int height_)
 		}
 	}
 	timer.Start();
+	Debug::FatalError("Game failed to initialize", "CoreEngine.cpp", __LINE__);
 	return isRunning = true;
 }
 

@@ -13,8 +13,5 @@ public:
 	void Update(const float deltaTime_) override;
 	void Render() override;
 
-private:
-	int currentSceneNum;
-	Scene* currentScene;
 };
 #endif // !STARTSCENE_H

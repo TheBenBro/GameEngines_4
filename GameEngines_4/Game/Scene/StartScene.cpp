@@ -2,8 +2,7 @@
 
 StartScene::StartScene()
 {
-	currentSceneNum = 0;
-	currentScene = nullptr;
+
 }
 
 StartScene::~StartScene()

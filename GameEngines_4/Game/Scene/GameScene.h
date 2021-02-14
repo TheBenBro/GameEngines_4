@@ -11,5 +11,9 @@ public:
 	bool OnCreate() override;
 	void Update(const float deltaTime_) override;
 	void Render() override;
+
+private:
+	GameObject* shape;
+	GameObject* shape2;
 };
 #endif // !GAMESCENE_H

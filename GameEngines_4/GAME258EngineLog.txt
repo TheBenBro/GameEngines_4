@@ -1,0 +1,1 @@
+[FATAL_ERROR]: Game failed to initialize in: CoreEngine.cpp on line 44
