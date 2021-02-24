@@ -33,6 +33,13 @@ bool CoreEngine::OnCreate(std::string name_, int width_, int height_)
 		return isRunning = false;
 
 	}
+
+	ShaderHandler::GetInstance()->CreateProgram("colourShader",
+		"Engine/Shaders/ColourVertexShader.glsl",
+		"Engine/Shaders/ColourFragmentShader.glsl");
+
+
+
 	if (gameInterface) {
 		if (!gameInterface->OnCreate()) {
 			Debug::FatalError("Game failed to initialize", "CoreEngine.cpp", __LINE__);
@@ -41,7 +48,7 @@ bool CoreEngine::OnCreate(std::string name_, int width_, int height_)
 		}
 	}
 	timer.Start();
-	Debug::FatalError("Game failed to initialize", "CoreEngine.cpp", __LINE__);
+	//Debug::FatalError("Game failed to initialize", "CoreEngine.cpp", __LINE__);
 	return isRunning = true;
 }
 
@@ -83,6 +90,7 @@ void CoreEngine::SetCurrentScene(int sceneNum)
 
 void CoreEngine::OnDestroy()
 {
+	ShaderHandler::GetInstance()->OnDestroy();
 	delete gameInterface;
 	gameInterface = nullptr;
 

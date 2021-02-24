@@ -13,7 +13,7 @@ GameObject::~GameObject()
 	}
 	model = nullptr;
 }
-
+//Renders the model
 void GameObject::Render()
 {
 	if (model) {

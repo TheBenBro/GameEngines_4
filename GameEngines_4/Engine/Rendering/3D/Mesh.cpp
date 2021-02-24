@@ -17,7 +17,7 @@ void Mesh::Render()
 	glBindVertexArray(VAO);
 	
 	glDrawArrays(GL_TRIANGLES, 0, vertexList.size());
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glBindVertexArray(0);
 }

@@ -157,6 +157,7 @@
     <ClCompile Include="Engine\Core\Timer.cpp" />
     <ClCompile Include="Game\Scene\StartScene.cpp" />
     <ClCompile Include="Engine\Rendering\3D\Mesh.cpp" />
+    <ClCompile Include="Engine\Graphics\ShaderHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Debug.h" />
@@ -171,6 +172,11 @@
     <ClInclude Include="Game\Game1.h" />
     <ClInclude Include="Game\Scene\StartScene.h" />
     <ClInclude Include="Engine\Rendering\3D\Mesh.h" />
+    <ClInclude Include="Engine\Graphics\ShaderHandler.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\Shaders\ColourFragmentShader.glsl" />
+    <None Include="Engine\Shaders\ColourVertexShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
