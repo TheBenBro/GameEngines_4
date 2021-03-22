@@ -14,6 +14,8 @@ public:
 
 private:
 	GameObject* shape;
-	GameObject* shape2;
+	Camera* light;
+
+	Model* model;
 };
 #endif // !GAMESCENE_H

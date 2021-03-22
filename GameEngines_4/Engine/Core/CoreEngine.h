@@ -9,7 +9,11 @@
 #include "Scene.h"
 
 #include "../Rendering/3D/GameObject.h"
+
 #include "../Graphics/ShaderHandler.h"
+#include "../Rendering/Textures/TextureHandle.h"
+
+#include "../Camera/Camera.h"
 
 class CoreEngine
 {
@@ -30,9 +34,13 @@ public:
 
 	bool GetIsRunning();
 	int GetCurrentScene() const;
+	float GetScreenWidth() const;
+	float GetScreenHeight()const;
+	Camera* GetCamera() const;
 
 	void SetGameInterface(GameInterface* gameInterface_);
 	void SetCurrentScene(int sceneNum);
+	void SetCamera(Camera* camera_);
 private:
 	CoreEngine();
 	~CoreEngine();
@@ -52,7 +60,7 @@ private:
 	unsigned int fps;
 
 	GameInterface* gameInterface;
-
+	Camera* camera;
 	int currentSceneNum;
 };
 #endif // !COREENGINE_H

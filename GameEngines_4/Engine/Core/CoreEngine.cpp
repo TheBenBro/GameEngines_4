@@ -38,6 +38,9 @@ bool CoreEngine::OnCreate(std::string name_, int width_, int height_)
 		"Engine/Shaders/ColourVertexShader.glsl",
 		"Engine/Shaders/ColourFragmentShader.glsl");
 
+	ShaderHandler::GetInstance()->CreateProgram("basicShader",
+		"Engine/Shaders/VertexShader.glsl",
+		"Engine/Shaders/FragmentShader.glsl");
 
 
 	if (gameInterface) {
@@ -48,7 +51,6 @@ bool CoreEngine::OnCreate(std::string name_, int width_, int height_)
 		}
 	}
 	timer.Start();
-	//Debug::FatalError("Game failed to initialize", "CoreEngine.cpp", __LINE__);
 	return isRunning = true;
 }
 
@@ -78,6 +80,21 @@ int CoreEngine::GetCurrentScene() const
 	return currentSceneNum;
 }
 
+float CoreEngine::GetScreenWidth() const
+{
+	return static_cast<float>(window->GetWidth());
+}
+
+float CoreEngine::GetScreenHeight() const
+{
+	return  static_cast<float>(window->GetHeight());
+}
+
+Camera* CoreEngine::GetCamera() const
+{
+	return camera;
+}
+
 void CoreEngine::SetGameInterface(GameInterface* gameInterface_)
 {
 	gameInterface = gameInterface_;
@@ -88,14 +105,23 @@ void CoreEngine::SetCurrentScene(int sceneNum)
 	currentSceneNum = sceneNum;
 }
 
+void CoreEngine::SetCamera(Camera* camera_)
+{
+	camera = camera_;
+}
+
 void CoreEngine::OnDestroy()
 {
 	ShaderHandler::GetInstance()->OnDestroy();
+	TextureHandle::GetInstance()->OnDestroy();
 	delete gameInterface;
 	gameInterface = nullptr;
 
 	delete window;
 	window = nullptr;
+
+	delete camera;	
+	camera = nullptr;
 	SDL_Quit();
 	exit(0);
 }
