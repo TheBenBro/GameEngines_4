@@ -19,7 +19,7 @@ public:
 	glm::vec3 GetPosition() const;
 
 	void AddLightSource(LightSource* lightSource_);
-	float getLights();
+	std::vector<LightSource*> getLights();
 private:
 	void UpdateCameraVectors();
 	glm::vec3 position;

@@ -74,9 +74,9 @@ void Camera::AddLightSource(LightSource* lightSource_)
 	lights.push_back(lightSource_);
 }
 
-float Camera::getLights()
+std::vector<LightSource*> Camera::getLights()
 {
-	return lights.size();
+	return lights;
 }
 
 

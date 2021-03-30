@@ -31,13 +31,13 @@ void Mesh::Render(Camera* camera_, glm::mat4 transform_)
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera_->GetView()));
 	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(camera_->GetPerspective()));
 
-	glUniform1fv(viewPos, 1, glm::value_ptr(camera_->GetPosition()));
-	glUniform1fv(lightPos, 1, glm::value_ptr(camera_->GetPosition()));
-	glUniform1fv(colour, 1, glm::value_ptr(camera_->GetPosition()));
+	glUniform3fv(viewPos, 1, glm::value_ptr(camera_->GetPosition()));
+	glUniform3fv(lightPos, 1, glm::value_ptr(camera_->getLights()[0]->getPosition()));
+	glUniform3fv(colour, 1, glm::value_ptr(camera_->getLights()[0]->getLightColour()));
 
-	glUniform1f(ambient, camera_->getLights());
-	glUniform1f(diffuse, camera_->getLights());
-	glUniform1f(specular, camera_->getLights());
+	glUniform1f(ambient, camera_->getLights()[0]->getAmbientValue());
+	glUniform1f(diffuse, camera_->getLights()[0]->getDiffuseValue());
+	glUniform1f(specular, camera_->getLights()[0]->getSpecularValue());
 
 	
 	glBindVertexArray(VAO);
