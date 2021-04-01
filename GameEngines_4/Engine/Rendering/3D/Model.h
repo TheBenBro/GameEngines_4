@@ -1,13 +1,13 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include "Mesh.h"
 #include <glm/gtc/matrix_transform.hpp> 
 #include <string>
+#include "LoadOBJModel.h"
 class Model
 {
 public:
-	Model(const std::_Invoker_strategy& objPath_, const std::_Invoker_strategy& matPath,  GLuint shaderProgram_);
+	Model(const std::string& objPath_, const std::string& matPath, GLuint shaderProgram_);
 	~Model();
 
 	void Render(Camera* camera_);
@@ -23,7 +23,7 @@ private:
 	std::vector<Mesh*> meshes;
 	GLuint shaderProgram;
 	std::vector<glm::mat4> modelInstances;
-
+	LoadOBJModel* obj;
 
 };
 
