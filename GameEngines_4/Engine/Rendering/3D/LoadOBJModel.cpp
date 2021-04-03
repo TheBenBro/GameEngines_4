@@ -39,10 +39,10 @@ std::vector<SubMesh> LoadOBJModel::GetSubMeshes()
 
 void LoadOBJModel::PostProcessing()
 {
-	for (unsigned int i = 0; i < indices.size(); i++) {
-		Vertex vert;		vert.position = vertices[indices[i-1]];
-		vert.normal = normals[normalIndices[i-1]];
-		vert.textureCoordinates = textureCoords[textureIndices[i-1]];
+	for (unsigned int i = 0; i < indices.size();i++) {
+		Vertex vert;		vert.position = vertices[indices[i]-1];
+		vert.normal = normals[normalIndices[i]-1];
+		vert.textureCoordinates = textureCoords[textureIndices[i]-1];
 		meshVertices.push_back(vert);
 	}
 	SubMesh mesh;
@@ -77,7 +77,7 @@ void LoadOBJModel::LoadModel(const std::string& filePath_)
 			vertices.push_back(glm::vec3(x, y, z));
 		}
 
-		if (line.substr(0, 3) == "vt ") {
+		else if (line.substr(0, 3) == "vt ") {
 			std::stringstream vt(line.substr(3));
 
 			float x, y, z;
@@ -85,28 +85,44 @@ void LoadOBJModel::LoadModel(const std::string& filePath_)
 			textureCoords.push_back(glm::vec2(x, y));
 		}
 
-		if (line.substr(0, 3) == "vn ") {
+		else if (line.substr(0, 3) == "vn ") 
+		{
 			std::stringstream vn(line.substr(3));
 			float x, y, z;
 
 			vn >> x >> y >> z;
 			normals.push_back(glm::vec3(x, y, z));
 		}
-		if (line.substr(0, 2) == "f ") {
+		else if (line.substr(0, 2) == "f ") 
+		{
 			std::stringstream vn(line.substr(2));
-			vn.ignore(line.length(), '/');
-			int x, y, z;
-			vn >> x >> y >> z;
-			indices.push_back(x);
-			textureIndices.push_back(y);
-			normalIndices.push_back(z);
+			GLint tmp = 0;
+			int counter = 0;
+			while (vn >> tmp) {
+				if (counter == 0)
+					indices.push_back(tmp);
+				else if (counter == 1)
+					textureIndices.push_back(tmp);
+				else if (counter == 2)
+					normalIndices.push_back(tmp);
+				if (vn.peek() == '/') {
+					++counter;
+					vn.ignore(1, '/');
+				}
+				else if (vn.peek() == ' ') {
+					++counter; 
+					vn.ignore(1, ' ');
+				}
+				if (counter > 2) {
+					counter = 0;
+				}
+			}
 		}
 
-		else if (line.substr(0, 7) == "usemt1 ") {
+		else if (line.substr(0, 7) == "usemtl ") {
 
 			if (indices.size() > 0) {
 				PostProcessing();
-
 			}
 			LoadMaterial(line.substr(7));
 		}
