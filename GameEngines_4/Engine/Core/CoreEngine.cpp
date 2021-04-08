@@ -114,6 +114,9 @@ void CoreEngine::OnDestroy()
 {
 	ShaderHandler::GetInstance()->OnDestroy();
 	TextureHandle::GetInstance()->OnDestroy();
+	MaterialHandler::GetInstance()->OnDestroy();
+	SceneGraph::GetInstance()->OnDestroy();
+
 	delete gameInterface;
 	gameInterface = nullptr;
 
@@ -138,7 +141,7 @@ void CoreEngine::Update(const float deltaTime_)
 void CoreEngine::Render()
 {
 	//Sets colour of background
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	if (gameInterface) {
 		gameInterface->Render();

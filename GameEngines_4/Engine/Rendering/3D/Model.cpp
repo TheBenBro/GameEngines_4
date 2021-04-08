@@ -31,7 +31,6 @@ Model::~Model()
 
 void Model::Render(Camera* camera_)
 {
-	glUseProgram(shaderProgram);
 	//Call render for each mesh
 	for (auto m : meshes) {
 		m->Render(camera_, modelInstances);
@@ -58,6 +57,11 @@ void Model::UpdateInstance(unsigned int index_, glm::vec3 position_, float angle
 glm::mat4 Model::GetTransform(unsigned int index_) const
 {
 	return modelInstances[index_];
+}
+
+GLuint Model::GetShaderProgram() const
+{
+	return shaderProgram;
 }
 
 glm::mat4 Model::CreateTransform(glm::vec3 position_, float angle_, glm::vec3 rotation_, glm::vec3 scale_) const

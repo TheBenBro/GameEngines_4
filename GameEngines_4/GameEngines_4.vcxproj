@@ -162,6 +162,9 @@
     <ClCompile Include="Engine\Rendering\3D\Mesh.cpp" />
     <ClCompile Include="Engine\Graphics\ShaderHandler.cpp" />
     <ClCompile Include="Engine\Rendering\Textures\TextureHandle.cpp" />
+    <ClCompile Include="Engine\Rendering\SceneGraph.cpp" />
+    <ClCompile Include="Engine\Graphics\MaterialHandler.cpp" />
+    <ClCompile Include="Engine\FX\MaterialLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Camera\Camera.h" />
@@ -181,15 +184,15 @@
     <ClInclude Include="Engine\Rendering\Textures\TextureHandle.h" />
     <ClInclude Include="Engine\FX\LightSource.h" />
     <ClInclude Include="Engine\Rendering\3D\LoadOBJModel.h" />
+    <ClInclude Include="Engine\Rendering\SceneGraph.h" />
+    <ClInclude Include="Engine\Graphics\MaterialHandler.h" />
+    <ClInclude Include="Engine\FX\MaterialLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Shaders\ColourFragmentShader.glsl" />
     <None Include="Engine\Shaders\ColourVertexShader.glsl" />
     <None Include="Engine\Shaders\FragmentShader.glsl" />
     <None Include="Engine\Shaders\VertexShader.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="GAME258EngineLog.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,9 +8,11 @@
 #include "GameInterface.h"
 #include "Scene.h"
 
+#include "../Rendering/SceneGraph.h"
 #include "../Rendering/3D/GameObject.h"
 
 #include "../Graphics/ShaderHandler.h"
+#include "../Graphics/MaterialHandler.h"
 #include "../Rendering/Textures/TextureHandle.h"
 
 #include "../Camera/Camera.h"
