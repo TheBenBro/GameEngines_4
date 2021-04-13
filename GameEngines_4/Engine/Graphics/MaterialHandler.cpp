@@ -1,5 +1,6 @@
 #include "MaterialHandler.h"
-
+std::unique_ptr<MaterialHandler> MaterialHandler::materialInstance = nullptr;
+std::vector<Material> MaterialHandler::materials = std::vector<Material>();
 MaterialHandler* MaterialHandler::GetInstance()
 {
     if (materialInstance.get() == nullptr) {

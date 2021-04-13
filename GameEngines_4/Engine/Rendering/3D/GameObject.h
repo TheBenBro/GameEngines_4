@@ -7,6 +7,7 @@ class GameObject
 public:
 	GameObject(Model* model_);
 	GameObject(Model* model_, glm::vec3 position_);
+
 	~GameObject();
 
 	void Update(const float deltaTime_);

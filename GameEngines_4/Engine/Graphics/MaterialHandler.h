@@ -8,8 +8,8 @@
 #include <memory>
 
 struct Material {
-	inline Material() :diffuseMap(0),shininess(0.0f),transparancy(0.0f),ambient(glm::vec3(1.0f))
-		,diffuse(glm::vec3(1.0f)),specular(glm::vec3()),name(""){}
+	inline Material() :diffuseMap(0),shininess(32.0f),transparancy(1.0f),ambient(glm::vec3(1.0f))
+		,diffuse(glm::vec3(1.0f)),specular(glm::vec3(1.0f)),name(""){}
 	GLuint diffuseMap;//newmtl
 
 	float shininess; //Ns

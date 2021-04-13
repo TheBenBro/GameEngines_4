@@ -12,7 +12,7 @@ void MaterialLoader::LoadMaterial(std::string filePath_)
 		return;
 	}
 	Material m = Material();
-	std::string matName = " ";
+	std::string matName = "";
 	std::string line;
 	while (std::getline(in, line)) {
 		if (line.substr(0, 7) == "newmtl ") {
@@ -23,6 +23,41 @@ void MaterialLoader::LoadMaterial(std::string filePath_)
 			matName = line.substr(7);
 			m.diffuseMap = LoadTexture(matName);
 			m.name = matName;
+		}
+		//Diffuse
+		else if (line.substr(0, 4) == "\tKd ") {
+			std::stringstream kd(line.substr(4));
+
+			kd >> m.diffuse.x >> m.diffuse.y >> m.diffuse.z;
+			//MaterialHandler::GetInstance()->AddMaterial(m);
+		}
+		//Ambient
+		else if (line.substr(0, 4) == "\tKa ") {
+			std::stringstream kd(line.substr(4));
+
+			kd >> m.ambient.x >> m.ambient.y >> m.ambient.z;
+			//MaterialHandler::GetInstance()->AddMaterial(m);
+		}
+		//Specular
+		else if (line.substr(0, 4) == "\tKs ") {
+			std::stringstream kd(line.substr(4));
+
+			kd >> m.specular.x >> m.specular.y >> m.specular.z;
+			//MaterialHandler::GetInstance()->AddMaterial(m);
+		}
+		//Shininess
+		else if (line.substr(0, 4) == "\tNs ") {
+			std::stringstream kd(line.substr(4));
+
+			kd >> m.shininess;
+			//MaterialHandler::GetInstance()->AddMaterial(m);
+		}
+		//Transparency
+		else if (line.substr(0, 3) == "\td ") {
+			std::stringstream kd(line.substr(3));
+
+			kd >> m.transparancy;
+			//MaterialHandler::GetInstance()->AddMaterial(m);
 		}
 	}
 	if (m.diffuseMap != 0) {

@@ -1,13 +1,7 @@
 #include "GameObject.h"
 
-GameObject::GameObject(Model* model_)
+GameObject::GameObject(Model* model_):model(nullptr), position(glm::vec3()), angle(0.0f), rotation(glm::vec3(0.0f, 1.0f, 0.0f)), scale(glm::vec3(1.0f)), modelInstance(0)
 {
-	model = nullptr;
-	position = glm::vec3();
-	angle = 0.0f;
-	rotation = glm::vec3(0.0f, 1.0f, 0.0f);
-	scale = glm::vec3(1.0f);
-	modelInstance = 0; 
 
 	model = model_;
 	if (model) {
@@ -15,9 +9,15 @@ GameObject::GameObject(Model* model_)
 	}
 }
 
-GameObject::GameObject(Model* model_, glm::vec3 position_)
+GameObject::GameObject(Model* model_, glm::vec3 position_) :model(nullptr), position(glm::vec3()), angle(0.0f), rotation(glm::vec3(0.0f, 1.0f, 0.0f)), scale(glm::vec3(1.0f)), modelInstance(0)
 {
+	model = model_;
+	position = position_;
+	if (model) {
+		modelInstance = model->CreateInstance(position, angle, rotation, scale);
+	}
 }
+
 
 GameObject::~GameObject()
 {
