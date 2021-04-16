@@ -12,6 +12,8 @@ meshVertices(std::vector<Vertex>()), subMeshes(std::vector<SubMesh>()), currentM
 	textureIndices.reserve(200);
 	meshVertices.reserve(200);
 	subMeshes.reserve(10);
+
+	maxX, maxY, maxZ, minX, minY, minZ = 0.0f;
 }
 
 LoadOBJModel::~LoadOBJModel()
@@ -37,12 +39,17 @@ std::vector<SubMesh> LoadOBJModel::GetSubMeshes()
 	return subMeshes;
 }
 
+BoundingBox LoadOBJModel::GetBoundingBox() const
+{
+	return boundingBox;
+}
+
 void LoadOBJModel::PostProcessing()
 {
 	for (unsigned int i = 0; i < indices.size();i++) {
-		Vertex vert;		vert.position = vertices[indices[i]-1];
-		vert.normal = normals[normalIndices[i]-1];
-		vert.textureCoordinates = textureCoords[textureIndices[i]-1];
+		Vertex vert;		vert.position = vertices[indices[i]];
+		vert.normal = normals[normalIndices[i]];
+		vert.textureCoordinates = textureCoords[textureIndices[i]];
 		meshVertices.push_back(vert);
 	}
 	SubMesh mesh;
@@ -73,14 +80,42 @@ void LoadOBJModel::LoadModel(const std::string& filePath_)
 
 			std::stringstream v(line.substr(2));
 			float x, y, z;
+
 			v >> x >> y >> z;
+			
+			if (maxX == 0.0f || maxX < x) {
+				maxX = x;
+				boundingBox.maxVert.x = maxX;
+			}
+			if (maxY == 0.0f || maxY < y) {
+				maxY = y;
+				boundingBox.maxVert.y = maxY;
+			}
+			if (maxZ == 0.0f || maxZ < z) {
+				maxZ = z;
+				boundingBox.maxVert.z = maxZ;
+			}
+
+			if (minX == 0.0f || minX > x) {
+				minX = x;
+				boundingBox.minVert.x = minX;
+			}
+			if (minY == 0.0f || minY > y) {
+				minY = y;
+				boundingBox.minVert.y = minY;
+			}
+			if (minZ == 0.0f || minZ > z) {
+				minZ = z;
+				boundingBox.minVert.z = minZ;
+			}
 			vertices.push_back(glm::vec3(x, y, z));
+			
 		}
 
 		else if (line.substr(0, 3) == "vt ") {
 			std::stringstream vt(line.substr(3));
 
-			float x, y, z;
+			GLfloat x, y, z;
 			vt >> x >> y >> z;
 			textureCoords.push_back(glm::vec2(x, y));
 		}
@@ -96,27 +131,26 @@ void LoadOBJModel::LoadModel(const std::string& filePath_)
 		else if (line.substr(0, 2) == "f ") 
 		{
 			std::stringstream vn(line.substr(2));
-			GLint tmp = 0;
-			int counter = 0;
-			while (vn >> tmp) {
-				if (counter == 0)
-					indices.push_back(tmp);
-				else if (counter == 1)
-					textureIndices.push_back(tmp);
-				else if (counter == 2)
-					normalIndices.push_back(tmp);
-				if (vn.peek() == '/') {
-					++counter;
-					vn.ignore(1, '/');
-				}
-				else if (vn.peek() == ' ') {
-					++counter; 
-					vn.ignore(1, ' ');
-				}
-				if (counter > 2) {
-					counter = 0;
-				}
-			}
+			char dummy;
+			unsigned int a, b, c, aT, bT, cT, aN, bN, cN;
+			vn >> a >> dummy >> aT >> dummy >> aN >> b >> dummy >> bT >> dummy >> bN
+				>> c >> dummy >> cT >> dummy >> cN;
+
+			a--; b--; c--;
+			aT--; bT--; cT--;
+			aN--; bN--; cN--;
+
+			indices.push_back(a);
+			indices.push_back(b);
+			indices.push_back(c);
+
+			normalIndices.push_back(aN);
+			normalIndices.push_back(bN);
+			normalIndices.push_back(cN);
+
+			textureIndices.push_back(aT);
+			textureIndices.push_back(bT);
+			textureIndices.push_back(cT);
 		}
 
 		else if (line.substr(0, 7) == "usemtl ") {
