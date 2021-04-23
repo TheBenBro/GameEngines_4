@@ -5,7 +5,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
+#include <iostream>
 #include "../../Graphics/MaterialHandler.h"
 #include "../../Camera/Camera.h"
 

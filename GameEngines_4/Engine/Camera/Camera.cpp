@@ -49,6 +49,40 @@ void Camera::SetRotation(float yaw_, float pitch_)
 	UpdateCameraVectors();
 }
 
+void Camera::CreatePlanes()
+{
+	//Far Plane
+	far.position = position + forward * farPlane;
+	far.topLeft = far.position + (up * CoreEngine::GetInstance()->GetScreenHeight() / 2.0f) - (right * CoreEngine::GetInstance()->GetScreenWidth() / 2.0f);
+	far.topRight = far.position + (up * CoreEngine::GetInstance()->GetScreenHeight() / 2.0f) + (right * CoreEngine::GetInstance()->GetScreenWidth() / 2.0f);
+	far.bottomLeft = far.position - (up * CoreEngine::GetInstance()->GetScreenHeight() / 2.0f) - (right * CoreEngine::GetInstance()->GetScreenWidth() / 2.0f);
+	far.bottomRight = far.position - (up * CoreEngine::GetInstance()->GetScreenHeight() / 2.0f) + (right * CoreEngine::GetInstance()->GetScreenWidth() / 2.0f);
+
+	//near Plane
+	near.position = position + forward * nearPlane;
+	near.topLeft = near.position + (up * CoreEngine::GetInstance()->GetScreenHeight() / 2.0f) - (right * CoreEngine::GetInstance()->GetScreenWidth() / 2.0f);
+	near.topRight = near.position + (up * CoreEngine::GetInstance()->GetScreenHeight() / 2.0f) + (right * CoreEngine::GetInstance()->GetScreenWidth() / 2.0f);
+	near.bottomLeft = near.position - (up * CoreEngine::GetInstance()->GetScreenHeight() / 2.0f) - (right * CoreEngine::GetInstance()->GetScreenWidth() / 2.0f);
+	near.bottomRight = near.position - (up * CoreEngine::GetInstance()->GetScreenHeight() / 2.0f) + (right * CoreEngine::GetInstance()->GetScreenWidth() / 2.0f);
+
+	//right Plane
+
+	planes[0] = Plane(far.topLeft, far.topRight, far.bottomLeft);
+	planes[1] = Plane(near.topLeft, near.topRight, near.bottomLeft);
+	//plane[2] = ;
+}
+float Planes::GetFrontNormal(glm::vec3 v0, glm::vec3 v1, glm::vec3 v2)
+{
+	glm::vec3 v = v1 - v0;
+	glm::vec3 u = v2 - v0;
+	glm::vec3 n = glm::normalize(glm::cross(v, u));
+
+	float d = glm::dot(n, v2);
+	return d;
+}
+
+
+
 glm::mat4 Camera::GetView() const
 {
 	return view;
@@ -64,6 +98,16 @@ glm::mat4 Camera::GetOrthographic() const
 	return orthographic;
 }
 
+float Camera::GetNearPlane() const
+{
+	return nearPlane;
+}
+
+float Camera::GetFarPlane() const
+{
+	return farPlane;
+}
+
 glm::vec3 Camera::GetPosition() const
 {
 	return position;
@@ -77,6 +121,34 @@ void Camera::AddLightSource(LightSource* lightSource_)
 std::vector<LightSource*> Camera::getLights()
 {
 	return lights;
+}
+
+glm::vec3 Camera::GetPlanesNormal(int plane_) const
+{
+	glm::vec3 tmp_Plane(0);
+	int tmp = 0;
+	switch (tmp)
+	{
+		case 0:
+			tmp_Plane = far.position;
+			break;
+		default:
+			break;
+	}
+	return tmp_Plane;
+}
+
+bool Camera::IsPastPlane(enum PlaneType plane_)
+{
+	switch (plane_)
+	{
+	case FRONT:
+		//tmp_Plane = far.position;
+		break;
+	default:
+		break;
+	}
+	return false;
 }
 
 void Camera::ProcessMouseMovement(glm::vec2 offset_)
@@ -99,6 +171,7 @@ void Camera::ProcessMouseMovement(glm::vec2 offset_)
 		yaw -= 360.0f;
 	}
 	UpdateCameraVectors();
+	CreatePlanes();
 }
 
 void Camera::ProcessMouseZoom(int y_)
@@ -107,6 +180,7 @@ void Camera::ProcessMouseZoom(int y_)
 		position += static_cast<float>(y_) * (forward * 2.0f);
 	}
 	UpdateCameraVectors();
+	CreatePlanes();
 }
 
 
@@ -124,3 +198,4 @@ void Camera::UpdateCameraVectors()
 
 	view = glm::lookAt(position, position + forward, up);
 }
+

@@ -2,7 +2,7 @@
 
 LoadOBJModel::LoadOBJModel() : vertices(std::vector<glm::vec3>()), normals(std::vector<glm::vec3>()), textureCoords(std::vector<glm::vec2>()),
 indices(std::vector<unsigned int>()), normalIndices(std::vector<unsigned int>()), textureIndices(std::vector<unsigned int>()),
-meshVertices(std::vector<Vertex>()), subMeshes(std::vector<SubMesh>()), currentMaterial(Material())
+meshVertices(std::vector<Vertex>()), subMeshes(std::vector<SubMesh>()), currentMaterial(Material()), maxX(0), maxY(0), maxZ(0), minX(0), minY(0), minZ(0)
 {
 	vertices.reserve(200);
 	normals.reserve(200);
@@ -13,7 +13,6 @@ meshVertices(std::vector<Vertex>()), subMeshes(std::vector<SubMesh>()), currentM
 	meshVertices.reserve(200);
 	subMeshes.reserve(10);
 
-	maxX, maxY, maxZ, minX, minY, minZ = 0.0f;
 }
 
 LoadOBJModel::~LoadOBJModel()
@@ -95,7 +94,7 @@ void LoadOBJModel::LoadModel(const std::string& filePath_)
 				maxZ = z;
 				boundingBox.maxVert.z = maxZ;
 			}
-
+			
 			if (minX == 0.0f || minX > x) {
 				minX = x;
 				boundingBox.minVert.x = minX;

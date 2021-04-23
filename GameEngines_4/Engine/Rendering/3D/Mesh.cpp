@@ -25,6 +25,7 @@ Mesh::Mesh(SubMesh& subMesh_, GLuint shaderProgram_)
 	}
 	subMesh = subMesh_;
 	shaderProgram = shaderProgram_;
+	
 	GenerateBuffers();
 }
 
@@ -51,7 +52,6 @@ void Mesh::Render(Camera* camera_, std::vector<glm::mat4>& instances_)
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera_->GetView()));
 		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(camera_->GetPerspective()));
 
-
 		glUniform3fv(viewPos, 1, glm::value_ptr(camera_->GetPosition()));
 		glUniform3fv(lightPos, 1, glm::value_ptr(camera_->getLights()[0]->getPosition()));
 		glUniform3fv(colour, 1, glm::value_ptr(camera_->getLights()[0]->getLightColour()));
@@ -71,9 +71,15 @@ void Mesh::Render(Camera* camera_, std::vector<glm::mat4>& instances_)
 	glBindVertexArray(VAO);
 
 	glEnable(GL_DEPTH_TEST);
+
 	for (int i = 0; i < instances_.size(); i++) {
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(instances_[i]));
+		if (instances_[i][3].z < camera_->GetPlanesNormal(0).z) {
+			std::cout << "NOT RENDERED" << std::endl;
+			
+		}
 		glDrawArrays(GL_TRIANGLES, 0, subMesh.vertexList.size());
+		//
 	}
 	
 	
