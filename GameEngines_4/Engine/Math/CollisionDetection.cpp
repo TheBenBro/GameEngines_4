@@ -42,28 +42,81 @@ bool CollisionDetection::RayObbIntersection(Ray* ray_, BoundingBox* box_)
 	glm::vec3 xAxis(modelMatrix[0].x, modelMatrix[0].y, modelMatrix[0].z);
 	float dotDelta = glm::dot(delta, xAxis);
 	float dotDir = glm::dot(rayDirection, xAxis);
+	
+		if (fabs(dotDir) > 0.001f) {
+			float t1 = (dotDelta + boxMin.x) / dotDir;
+			float t2 = (dotDelta + boxMax.x) / dotDir;
+			if (t1 > t2) {
+				float w = t1;
+				t1 = t2;
+				t2 = w;
+			}
 
-	if (fabs(dotDir) > 0.001f) {
-		float t1 = (dotDelta + boxMin.x) / dotDir;
-		float t2 = (dotDelta + boxMax.x) / dotDir;
-		if (t1 > t2) {
-			float w = t1;
-			t1 = t2;
-			t2 = w;
+			if (t2 < tMax) {
+				tMax = t2;
+			}
+			if (t1 > tMin) {
+				tMin = t1;
+			}
+			if (tMax < tMin) {
+				return false;
+			}
 		}
 
-		if (t2 < tMax) {
-			tMax = t2;
+		glm::vec3 yAxis(modelMatrix[1].x, modelMatrix[1].y, modelMatrix[1].z);
+		float dotDelta1 = glm::dot(delta, yAxis);
+		float dotDir1 = glm::dot(rayDirection, yAxis);
+		if (fabs(dotDir1) > 0.001f) {
+			float t1 = (dotDelta1 + boxMin.y) / dotDir1;
+			float t2 = (dotDelta1 + boxMax.y) / dotDir1;
+			if (t1 > t2) {
+				float w = t1;
+				t1 = t2;
+				t2 = w;
+			}
+
+			if (t2 < tMax) {
+				tMax = t2;
+			}
+			if (t1 > tMin) {
+				tMin = t1;
+			}
+			if (tMax < tMin) {
+				return false;
+			}
 		}
-		if (t1 > tMin) {
-			tMin = t1;
+
+		glm::vec3 zAxis(modelMatrix[2].x, modelMatrix[2].y, modelMatrix[2].z);
+		float dotDelta2 = glm::dot(delta, zAxis);
+		float dotDir2 = glm::dot(rayDirection, zAxis);
+		if (fabs(dotDir2) > 0.001f) {
+			float t1 = (dotDelta2 + boxMin.z) / dotDir2;
+			float t2 = (dotDelta2 + boxMax.z) / dotDir2;
+			if (t1 > t2) {
+				float w = t1;
+				t1 = t2;
+				t2 = w;
+			}
+
+			if (t2 < tMax) {
+				tMax = t2;
+			}
+			if (t1 > tMin) {
+				tMin = t1;
+			}
+			if (tMax < tMin) {
+				return false;
+			}
 		}
-		if (tMax < tMin) {
-			return false;
-		}
-	}
+
 	else {
 		if (-dotDelta + boxMin.x > 0.0f || -dotDelta + boxMax.x < 0.0f) {
+			return false;
+		}
+		if (-dotDelta1 + boxMin.y > 0.0f || -dotDelta1 + boxMax.y < 0.0f) {
+			return false;
+		}
+		if (-dotDelta2 + boxMin.z > 0.0f || -dotDelta2 + boxMax.z < 0.0f) {
 			return false;
 		}
 	}
